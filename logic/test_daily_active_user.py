@@ -3,6 +3,8 @@ import os, sys
 ENGINE_ROOT = os.path.join(os.path.dirname(__file__),'../engine')
 sys.path.insert(0, os.path.join(ENGINE_ROOT, "."))
 
+
+import os
 from stat_plan import Stat_plan
 from stat_sql import Stat_sql
 from datetime import datetime
