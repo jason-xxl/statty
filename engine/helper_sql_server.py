@@ -71,7 +71,7 @@ def execute(conn_config,sql,log_sql=True):
         #conn.close()
         pass
 
-
+# excute sql and return number of rows
 def fetch_scalar(conn_config,sql):
     conn = get_db(conn_config)
     

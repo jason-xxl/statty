@@ -6,12 +6,13 @@ sys.path.insert(0, os.path.join(ENGINE_ROOT, "."))
 from stat_plan import Stat_plan
 from stat_sql import Stat_sql
 from datetime import datetime
+from celery.task import task
 import time
-import helper_regex
 import config
 
-def stat_im(my_date):
-
+@task
+def stat_im():
+    print "Start CRONTTAB!!!!!!!!!!!!!!!!!"
     oem_name='test'
     stat_category='test'
 
@@ -39,12 +40,12 @@ def stat_im(my_date):
 
     stat_plan.run()    
 
-if __name__=='__main__':
+'''if __name__=='__main__':
 
     for i in range(config.day_to_update_stat,0,-1):
         my_date=time.time()-3600*24*i
         stat_im(my_date)
-
+'''
 
 
 

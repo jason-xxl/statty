@@ -7,6 +7,7 @@ sys.path.insert(0, os.path.join(ENGINE_ROOT, "."))
 import codecs
 sys.stdout = codecs.getwriter('utf8')(sys.stdout)
 
+day_to_update_stat=1
 
 """
 ip_win=socket.gethostbyname(socket.gethostname())
@@ -86,6 +87,15 @@ _conn_stat_portal_158={
     'db_type':'mysql',
 }
 
+conn_stat_portal = {
+    'host':'localhost',
+    'account':'root',
+    'pwd':'gumi.asia123',
+    'db':'statty_data',
+    'collection_root_dir':os.path.join(ENGINE_ROOT, "../data/collection"),
+    'named_collection_root_dir':os.path.join(ENGINE_ROOT, "../data/named_collection"),
+    'db_type':'mysql',
+}
 
 mail_from='jason.xu@gumi.sg'
 mail_targets=['jason.xu@gumi.sg']

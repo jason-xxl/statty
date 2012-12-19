@@ -370,6 +370,7 @@ def extract_useragent_key(line,flags=[1,2,4,8,16,32,64,128,256,512,1024]):
 
     return ret.lower()
 
+#check and store regex inside cache and process checking regex with source
 def extract(source,regex):
     if not re_cache.has_key(regex):
         if isinstance(regex,str) and regex.endswith('[ignorecase]'):        
@@ -540,6 +541,34 @@ def extract_date_hour_key(original_key):
         key,date_key=extract_date(original_key)
     return key,date_key
 
+def extract_date_hour(str):
+    
+    #str='data_2010-04-03 12_data'
+    #str='zzz_08 Apr 12_ccc'
+    #str='zzz_May 23 23_ccc'
+    
+    match=''
+    ret=extract(str,r'((?:19|20|21)\d{2}-[01]\d-[0123]\d (?:0\d|1\d|20|21|22|23))')
+    if not ret:
+        ret=extract(str,r'([0123]\d (?:ja|fe|ma|ap|ma|ju|ju|au|se|oc|no|de)[A-Za-z]{1,2} (?:0\d|1\d|20|21|22|23))[ignorecase]')
+        if ret:
+            match=ret
+            date=extract(str,r'(\d{2} [A-Za-z]{3,4}) \d{2}')+' '+datetime.fromtimestamp(time.time()-3600*24).strftime('%Y')
+            ret=datetime.strptime(date, '%d %b %Y').strftime('%Y-%m-%d')+' '+extract(str,r'\d{2} [A-Za-z]{3,4} (\d{2})')
+        else:
+            ret=extract(str,r'((?:ja|fe|ma|ap|ma|ju|ju|au|se|oc|no|de)[A-Za-z]{1,2} [0123]\d (?:0\d|1\d|20|21|22|23))[ignorecase]')
+            if ret:
+                match=ret
+                date=extract(str,r'([A-Za-z]{3,4} \d{2}) \d{2}')+' '+datetime.fromtimestamp(time.time()-3600*24).strftime('%Y')
+                ret=datetime.strptime(date, '%b %d %Y').strftime('%Y-%m-%d')+' '+extract(str,r'[A-Za-z]{3,4} \d{2} (\d{2})')
+    else:
+        match=ret
+
+    str=str.replace(match,'').strip('_').replace('__','_')
+    return str,ret
+
+
+format_date_time_moagent_last_date_time=''
 
 def extract_log_date(line):
     #line='2011-06-10 05:19:50,220 offline: 55505991'
@@ -548,75 +577,6 @@ def extract_log_date(line):
         line=format_date_time_moagent(line)
         match=extract(line,r'^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}(?:,\d{3})?)')
     return match
-
-"""
-
-def extract_date(str):
-    #str='data_2010-04-03_data'
-    #str='zzz_08 Apr_ccc'
-    #str='zzz_May 23_ccc'
-    match=''
-    ret=extract(str,r'(\d{4}-\d{2}-\d{2})')
-    if not ret:
-        ret=extract(str,r'(\d{2} [A-Za-z]{3,4})')
-        if ret:
-            match=ret
-            ret+=' '+datetime.fromtimestamp(time.time()-3600*24).strftime('%Y')
-            ret=datetime.strptime(ret, '%d %b %Y').strftime('%Y-%m-%d')
-        else:
-            ret=extract(str,r'([A-Za-z]{3,4} \d{2})')
-            if ret:
-                match=ret
-                ret+=' '+datetime.fromtimestamp(time.time()-3600*24).strftime('%Y')
-                ret=datetime.strptime(ret, '%b %d %Y').strftime('%Y-%m-%d')
-
-    else:
-        match=ret
-
-    if match:
-        str=str.replace(match,'')
-        if str.startswith('_'): str=str[1:]
-        if str.endswith('_'): str=str[:-1]
-        str=str.replace('__','_')
-        
-    return str,ret
-
-def extract_date_hour(str):
-    #str='data_2010-04-03 12_data'
-    #str='zzz_08 Apr 12_ccc'
-    #str='zzz_May 23 23_ccc'
-    match=''
-    ret=extract(str,r'(\d{4}-\d{2}-\d{2} \d{2})')
-    if not ret:
-        ret=extract(str,r'(\d{2} [A-Za-z]{3,4} \d{2})')
-        if ret:
-            match=ret
-            date=extract(str,r'(\d{2} [A-Za-z]{3,4}) \d{2}')+' '+datetime.fromtimestamp(time.time()-3600*24).strftime('%Y')
-            ret=datetime.strptime(date, '%d %b %Y').strftime('%Y-%m-%d')
-            ret+=' '+extract(str,r'\d{2} [A-Za-z]{3,4} (\d{2})')
-        else:
-            ret=extract(str,r'([A-Za-z]{3,4} \d{2} \d{2})')
-            if ret:
-                match=ret
-                date=extract(str,r'([A-Za-z]{3,4} \d{2}) \d{2}')+' '+datetime.fromtimestamp(time.time()-3600*24).strftime('%Y')
-                ret=datetime.strptime(date, '%b %d %Y').strftime('%Y-%m-%d')
-                ret+=' '+extract(str,r'[A-Za-z]{3,4} \d{2} (\d{2})')
-
-    else:
-        match=ret
-
-    if match:
-        str=str.replace(match,'')
-        if str.startswith('_'): str=str[1:]
-        if str.endswith('_'): str=str[:-1]
-        str=str.replace('__','_')
-        
-    return str,ret
-
-"""
-
-
-
 
 def extract_date(str):
     
@@ -644,35 +604,6 @@ def extract_date(str):
 
     str=str.replace(match,'').strip('_').replace('__','_')
     return str,ret
-
-def extract_date_hour(str):
-    
-    #str='data_2010-04-03 12_data'
-    #str='zzz_08 Apr 12_ccc'
-    #str='zzz_May 23 23_ccc'
-    
-    match=''
-    ret=extract(str,r'((?:19|20)\d{2}-[01]\d-[0123]\d (?:0\d|1\d|20|21|22|23))')
-    if not ret:
-        ret=extract(str,r'([0123]\d (?:ja|fe|ma|ap|ma|ju|ju|au|se|oc|no|de)[A-Za-z]{1,2} (?:0\d|1\d|20|21|22|23))[ignorecase]')
-        if ret:
-            match=ret
-            date=extract(str,r'(\d{2} [A-Za-z]{3,4}) \d{2}')+' '+datetime.fromtimestamp(time.time()-3600*24).strftime('%Y')
-            ret=datetime.strptime(date, '%d %b %Y').strftime('%Y-%m-%d')+' '+extract(str,r'\d{2} [A-Za-z]{3,4} (\d{2})')
-        else:
-            ret=extract(str,r'((?:ja|fe|ma|ap|ma|ju|ju|au|se|oc|no|de)[A-Za-z]{1,2} [0123]\d (?:0\d|1\d|20|21|22|23))[ignorecase]')
-            if ret:
-                match=ret
-                date=extract(str,r'([A-Za-z]{3,4} \d{2}) \d{2}')+' '+datetime.fromtimestamp(time.time()-3600*24).strftime('%Y')
-                ret=datetime.strptime(date, '%b %d %Y').strftime('%Y-%m-%d')+' '+extract(str,r'[A-Za-z]{3,4} \d{2} (\d{2})')
-    else:
-        match=ret
-
-    str=str.replace(match,'').strip('_').replace('__','_')
-    return str,ret
-
-
-format_date_time_moagent_last_date_time=''
 
 def format_date_time_moagent(line='',current_year='2012'):
     global format_date_time_moagent_last_date_time

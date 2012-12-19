@@ -1,6 +1,13 @@
 # Django settings for portal project.
 
 import os, sys
+import djcelery
+from datetime import timedelta
+from celery.task.schedules import crontab 
+from engine import config
+import time
+
+djcelery.setup_loader()
 
 PROJECT_ROOT = os.path.join(os.path.dirname(__file__),'.')
 sys.path.insert(0, os.path.join(PROJECT_ROOT, "modules"))
@@ -123,9 +130,36 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     'celery',
+    'djcelery',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+PARAM = time.time()-3600*24*1
+
+BROKER_HOST = "localhost"
+BROKER_PORT = 5672
+BROKER_USER = "root"
+BROKER_PASSWORD = "gumi.asia123"
+BROKER_VHOST = "8001"
+
+CELERY_IMPORTS = ("logic.test_daily_active_user")
+CELERYBEAT_SCHEDULE = {
+"test_dau": {
+"task": "logic.test_daily_active_user.stat_im",
+"schedule": crontab(minute=1, hour=11),
+"args": (),
+},
+"test_dau1": {
+"task": "logic.test_daily_active_user.stat_im",
+"schedule": crontab(minute=2, hour=12),
+"args": (),
+},
+"test_dau2": {
+"task": "logic.test_daily_active_user.stat_im",
+"schedule": crontab(minute=3, hour=13),
+"args": (),
+},
+}
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

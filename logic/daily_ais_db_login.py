@@ -14,7 +14,7 @@ def stat_login(my_date): # run on 0:00 a.m. , calculate yesterday's data
     oem_name='Mozat'
     stat_category='login_only_ais'
         
-    start_time=helper_regex.time_floor(my_date)
+    start_time=helper_regex.time_floor(my_date) # ll:my_date unit is sec
     end_time=helper_regex.time_ceil(my_date)
     date_today=start_time.replace(' 00:00:00','')
 
@@ -37,6 +37,7 @@ def stat_login(my_date): # run on 0:00 a.m. , calculate yesterday's data
     
     ''' 
     print 'SQL Server:'+sql
+    # ll:excute sql and return how many rows
     value=helper_sql_server.fetch_scalar_int(config.conn_mozat,sql)
     print value
     helper_mysql.put_raw_data(oem_name,stat_category,key,date_today,value,table_name='raw_data_ais')
@@ -66,7 +67,7 @@ def stat_login(my_date): # run on 0:00 a.m. , calculate yesterday's data
 
     # login 7 day
     
-    start_time=helper_regex.time_floor(my_date-3600*24*6)
+    start_time=helper_regex.time_floor(my_date-3600*24*6) # ll:make start time to last 7 days ago
 
     db=''
     key='user_last_login_7_day_unique'
@@ -88,7 +89,7 @@ def stat_login(my_date): # run on 0:00 a.m. , calculate yesterday's data
 
     # login 30 day
     
-    start_time=helper_regex.time_floor(my_date-3600*24*29)
+    start_time=helper_regex.time_floor(my_date-3600*24*29) 
 
     db=''
     key='user_last_login_30_day_unique'
