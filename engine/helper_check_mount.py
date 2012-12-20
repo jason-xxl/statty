@@ -5,7 +5,6 @@ import helper_ip
 def check_mount():
 	server_ip = helper_ip.get_current_server_ip()
 	directory = '/mnt/%s'%server_ip
-	print directory
 	if os.path.exists(directory):
 		print 'file exist \n'
 		if locate('.log', directory):
@@ -13,6 +12,12 @@ def check_mount():
 		else:
 			return 'mount(server_ip, False)'
 	else:
+		try:
+			os.makedirs(directory)
+		except OSError as exception:
+			print exception
+			pass
+		
 		return 'mount(server_ip, True)'
 
 def locate(pattern, dir):
