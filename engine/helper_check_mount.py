@@ -32,7 +32,7 @@ def mount(server_ip, mkdir):
 				os.system('sudo mkdir /mnt/')
 			os.system('sudo mkdir /mnt/%s sudo mount -t cifs //%s/MyShare /mnt/%s/ -o username=smbuser,passwd=smbpassword'%(server_ip, server_ip, server_ip))
 		else:
-			os.system('sudo mount -t cifs //%s/MyShare /mnt/%s/ -o username=smbuser,passwd=smbpassword'%(server_ip, server_ip, server_ip))
+			os.system('sudo mount -t cifs //%s/MyShare /mnt/%s/ -o username=smbuser,passwd=smbpassword'%(server_ip, server_ip))
 		return True
 	except Exception as exception:
 		print exception
