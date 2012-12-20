@@ -4,7 +4,7 @@ import helper_ip
 
 def check_mount():
 	server_ip = helper_ip.get_current_server_ip()
-	directory = '/mnt/%s/'%[server_ip]
+	directory = '/mnt/%s'%[server_ip]
 	if os.path.exists(directory):
 		print 'file exist \n'
 		if locate('*.log', directory):
