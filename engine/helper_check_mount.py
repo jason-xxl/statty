@@ -25,7 +25,8 @@ def mount(server_ip, mkdir):
 		if(mkdir):
 			if not os.path.exists('/mnt'): 
 				os.system('sudo mkdir /mnt/')
-			os.system('sudo mkdir /mnt/%s sudo mount -t cifs //%s/MyShare /mnt/%s/ -o username=smbuser,passwd=smbpassword'%(server_ip, server_ip, server_ip))
+			os.system('sudo mkdir /mnt/%s'%(server_ip))
+			os.system('sudo mount -t cifs //%s/MyShare /mnt/%s/ -o username=smbuser,passwd=smbpassword'%(server_ip, server_ip))
 		else:
 			os.system('sudo mount -t cifs //%s/MyShare /mnt/%s/ -o username=smbuser,passwd=smbpassword'%(server_ip, server_ip))
 		if not locate('.log', directory):
