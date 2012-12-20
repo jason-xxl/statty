@@ -9,10 +9,9 @@ def check_mount():
 		if locate('*.log', directory):
 			return True
 		else:
-			mount(server_ip, False)
+			return mount(server_ip, False)
 	else:
-		mount(server_ip, True)
-	return "a"
+		return mount(server_ip, True)
 
 def locate(pattern, dir):
 	text_files = [f for f in os.listdir(dir) if f.endswith(pattern)]
