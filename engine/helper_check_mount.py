@@ -6,6 +6,7 @@ def check_mount():
 	server_ip = helper_ip.get_current_server_ip()
 	directory = '/mnt/%s/'%[server_ip]
 	if os.path.exists(directory):
+		print 'file exist \n'
 		if locate('*.log', directory):
 			return True
 		else:
@@ -14,12 +15,16 @@ def check_mount():
 		return mount(server_ip, True)
 
 def locate(pattern, dir):
+	print 'locate file \n'
 	text_files = [f for f in os.listdir(dir) if f.endswith(pattern)]
 	if text_files:
+		print 'True\n'
 		return True
+	print 'False\n'
 	return False
 
 def mount(server_ip, mkdir):
+	print 'mount\n'
 	try:
 		if(mkdir):
 			os.cmd('mkdir ~/mnt/%s sudo mount -t cifs //%s/MyShare /mnt/%s/ -o username=smbuser,passwd=smbpassword'%[server_ip, server_ip, server_ip])
@@ -27,6 +32,7 @@ def mount(server_ip, mkdir):
 			os.cmd('sudo mount -t cifs //%s/MyShare /mnt/%s/ -o username=smbuser,passwd=smbpassword'%[server_ip, server_ip, server_ip])
 		return True
 	except:
+		print 'exception\n'
 		return False
 
 if __name__=='__main__':
