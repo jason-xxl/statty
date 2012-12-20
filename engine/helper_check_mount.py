@@ -13,8 +13,8 @@ def check_mount():
 			return 'mount(server_ip, False)'
 	else:
 		if not os.path.exists('/mnt'): 
-			os.mkdir('/test/', 0777)
-		os.mkdir('/test/%s/'%(server_ip), 0777)
+			os.system('sudo mkdir /mnt/')
+		os.system('sudo mkdir /mnt/test')
 		#os.mkdir('/mnt/%s/%s'%(server_ip, server_ip), 0755)
 		
 		return 'mount(server_ip, True)'
@@ -33,9 +33,11 @@ def mount(server_ip, mkdir):
 	print 'mount\n'
 	try:
 		if(mkdir):
-			os.cmd('mkdir ~/mnt/%s sudo mount -t cifs //%s/MyShare /mnt/%s/ -o username=smbuser,passwd=smbpassword'%[server_ip, server_ip, server_ip])
+			if not os.path.exists('/mnt'): 
+				os.system('sudo mkdir /mnt/')
+			os.system('sudo mkdir /mnt/%s sudo mount -t cifs //%s/MyShare /mnt/%s/ -o username=smbuser,passwd=smbpassword'%(server_ip, server_ip, server_ip))
 		else:
-			os.cmd('sudo mount -t cifs //%s/MyShare /mnt/%s/ -o username=smbuser,passwd=smbpassword'%[server_ip, server_ip, server_ip])
+			os.system('sudo mount -t cifs //%s/MyShare /mnt/%s/ -o username=smbuser,passwd=smbpassword'%(server_ip, server_ip, server_ip))
 		return True
 	except:
 		print 'exception\n'
