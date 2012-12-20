@@ -12,11 +12,10 @@ def check_mount():
 		else:
 			return 'mount(server_ip, False)'
 	else:
-		try:
-			os.makedirs(directory)
-		except OSError as exception:
-			print exception
-			pass
+		if not os.path.exists('/mnt'): 
+			os.mkdir('/test/', 0777)
+		os.mkdir('/test/%s/'%(server_ip), 0777)
+		#os.mkdir('/mnt/%s/%s'%(server_ip, server_ip), 0755)
 		
 		return 'mount(server_ip, True)'
 
