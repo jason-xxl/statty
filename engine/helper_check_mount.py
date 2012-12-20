@@ -34,8 +34,8 @@ def mount(server_ip, mkdir):
 		else:
 			os.system('sudo mount -t cifs //%s/MyShare /mnt/%s/ -o username=smbuser,passwd=smbpassword'%(server_ip, server_ip, server_ip))
 		return True
-	except:
-		print 'exception\n'
+	except Exception as exception:
+		print exception
 		return False
 
 if __name__=='__main__':
