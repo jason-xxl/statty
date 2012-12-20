@@ -10,14 +10,9 @@ def check_mount():
 		if locate('.log', directory):
 			return True
 		else:
-			return 'mount(server_ip, False)'
+			return mount(server_ip, False)
 	else:
-		if not os.path.exists('/mnt'): 
-			os.system('sudo mkdir /mnt/')
-		os.system('sudo mkdir /mnt/test')
-		#os.mkdir('/mnt/%s/%s'%(server_ip, server_ip), 0755)
-		
-		return 'mount(server_ip, True)'
+		return mount(server_ip, True)
 
 def locate(pattern, dir):
 	print 'locate file \n'
