@@ -4,19 +4,21 @@ import helper_ip
 
 def check_mount():
 	server_ip = helper_ip.get_current_server_ip()
-	directory = '/mnt/%s'%[server_ip]
+	directory = '/mnt/%s'%server_ip
+	print directory
 	if os.path.exists(directory):
 		print 'file exist \n'
-		if locate('*.log', directory):
+		if locate('.log', directory):
 			return True
 		else:
-			return mount(server_ip, False)
+			return 'mount(server_ip, False)'
 	else:
-		return mount(server_ip, True)
+		return 'mount(server_ip, True)'
 
 def locate(pattern, dir):
 	print 'locate file \n'
 	text_files = [f for f in os.listdir(dir) if f.endswith(pattern)]
+	print text_files
 	if text_files:
 		print 'True\n'
 		return True
