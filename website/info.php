@@ -1,0 +1,6 @@
+<?=1?>
+<?echo 111;?>
+<?php
+echo phpinfo();
+?>
+

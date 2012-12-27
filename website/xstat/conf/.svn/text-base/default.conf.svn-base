@@ -1,0 +1,22 @@
+[basic]
+include=init.inc.php
+languages=en
+
+[database]
+phptype=mysql
+username=root
+password=
+hostspec=192.168.0.142:3300
+database=mozat_stat
+persistent=true
+initsql=SET NAMES UTF8
+
+[ini_set]
+display_errors=1
+date.timezone=Asia/Singapore
+
+[mail]
+host=192.168.0.136
+persist=true
+auth=false
+sender=<admin@mozat.com>
