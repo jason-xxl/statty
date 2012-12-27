@@ -136,7 +136,7 @@ INSTALLED_APPS = (
 )
 PARAM = time.time()-3600*24*1
 
-BROKER_HOST = "localhost"
+BROKER_HOST = "127.0.0.1"
 BROKER_PORT = 5672
 BROKER_USER = "root"
 BROKER_PASSWORD = "gumi.asia123"
@@ -146,17 +146,17 @@ CELERY_IMPORTS = ("logic.test_daily_active_user")
 CELERYBEAT_SCHEDULE = {
 "test_dau": {
 "task": "logic.test_daily_active_user.stat_im",
-"schedule": crontab(minute=1, hour=11),
+"schedule": crontab(minute=53, hour=12),
 "args": (),
 },
 "test_dau1": {
 "task": "logic.test_daily_active_user.stat_im",
-"schedule": crontab(minute=2, hour=12),
+"schedule": crontab(minute=6, hour=13),
 "args": (),
 },
 "test_dau2": {
 "task": "logic.test_daily_active_user.stat_im",
-"schedule": crontab(minute=3, hour=13),
+"schedule": crontab(minute=7, hour=13),
 "args": (),
 },
 }

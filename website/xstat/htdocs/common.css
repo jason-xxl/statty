@@ -1,0 +1,57 @@
+@CHARSET "ISO-8859-1";
+body { font-family: Arial; font-size: 75%; }
+input, pre { font-size: 100%; }
+.ui-widget { font-size:90%; }
+form { margin: 0; }
+table { border-collapse: collapse; border-color: grey; border-spacing: 0px; }
+.footnote { font-size: 0.8em; color: grey; }
+.page_msg { display: none; color: white; background-color: #333; opacity: .75; border-radius: 9px; -moz-border-radius: 9px; width: 230px; top: 30px; padding: 10px; position: fixed; left: 550px; }
+.ajax_msg_ok { background: url(images/check_s.png) no-repeat 0 center; padding-left: 18px; }
+.ajax_msg_error { background: url(images/error_s.png) no-repeat 0 center; padding-left: 18px; }
+label.error { background: url(images/error_s.png) no-repeat 0 center; padding-left: 18px; margin-left: 1em; float: none; color: red; }
+.btn { cursor: pointer; opacity: .75; }
+.btn:hover { opacity: 1; }
+.img_btn { background: transparent; cursor: pointer; color: #7A7A7A; font-family: Verdana; text-decoration: none; display: inline-block; overflow:visible; padding: 1px 6px; margin: 0px; 
+	border: 1px solid transparent; opacity: .75; -moz-border-radius: 4px; border-radius: 4px; }
+.img_btn img { vertical-align: middle; color: #555555; }
+.img_btn:hover { border-color: Orange; background-color: #FAFAD2; opacity: 1; }
+.img_btn[disabled] { cursor: default; border-color: transparent; background: transparent; opacity: .75; }
+.icon-overlay { width: 9px; margin-left: -9px; position: absolute; }
+.icon-overlay2 { width: 12px; margin-left: -12px; margin-top: 12px; position: absolute; }
+.blockMsg { border: none; color: white; font-size: 1.1em; border-radius: 9px; -moz-border-radius: 9px; min-width: 140px; }
+.to_search { background: url(images/to_search.png) no-repeat 0 -1px; }
+button.img_link { border: none; background-color: transparent; cursor: pointer; }
+a.img_link { text-decoration: none; }
+.img_link:hover span { color: Orange; text-decoration: underline; }
+.img_link img { border: none; vertical-align: middle; margin-right: 3px; }
+.overlay { position: absolute; border: 1px solid black; background-color: blue; opacity: 0.2; filter: alpha(opacity=20); }
+.hidden { display:none; }
+
+
+
+.chart_sec_title {
+	border-bottom: 1px solid #cccccc;
+	color:#aaaaaa;
+	font-family: Arial; 
+	font-size: 150%;
+	font-style: italic;
+	margin-bottom:12px;
+	padding-top:0px;
+}
+
+/*
+.chart_sec_title a {
+	float:right;
+	color:#aaaaaa;
+	text-decoration: none;
+	font-family: Arial; 
+	font-size: 14px;
+}
+
+.chart_sec_title a:hover {
+	float:right;
+	color:blue;
+	font-family: Arial; 
+	font-size: 14px;
+}
+*/
