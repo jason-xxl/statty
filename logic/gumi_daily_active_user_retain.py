@@ -79,126 +79,142 @@ def stat_login():
     date_max=helper_regex.date_add(helper_regex.get_date_str_now(),-1)
     date_min=helper_regex.date_add(date_max,-30)
 
-    country = "SG"
-    for i in range(1,10000):
+    list_of_country = ['SG']
+    for country in list_of_country:
 
-        current_date=helper_regex.date_add(date_min,i)
-        print 'current date',current_date
-        
-        if current_date>date_max:
-            break
-        
-        # get daily subscriber 
+        for i in range(1,10000):
 
-        start_time=current_date+' 00:00:00' # cos Mozat is 0:00:00-23:59:59, so AIS is the same
-        end_time=helper_regex.date_add(current_date,1)+' 00:00:00'
-        new_user_set=gumi_helper_user.get_user_ids_created_by_date(current_date)
-
-        daily_active_user_set = helper_mysql.get_raw_collection_from_key(oem_name='Gumi_puzzle', \
-                            category='user',key='live_log_by_country_daily_uid_unique_collection_id',sub_key=country, \
-                            date=current_date, \
-                            table_name='raw_data',db_conn=None)
-
-        if not daily_active_user_set:
-            print "NO Data Set for %s"%current_date
-            pass
-        
-        new_active_user_set = new_user_set & daily_active_user_set
-        # calculate
-
-        print 'start calculate'
-
-
-        base_user_sets={
-
-            'new-subscriber':new_user_set,
-            'new-subscriber_active':new_active_user_set
-            ##############################################
-            #                                            #
-            #   Register new user group definition here  #
-            #                                            #
-            #   key name should contain "ais"            #
-            #                                            #
-            ##############################################
-
-        }
-
-        for k,user_set in base_user_sets.iteritems():
+            current_date=helper_regex.date_add(date_min,i)
+            print 'current date',current_date
             
-            k=k.replace('*','')
-
-            # calculate total
-
-            print 'user base of',k,':',len(user_set)
-
-            key='daily_active_user_initial_%s_total_unique' % (k,)
-            helper_mysql.put_raw_data(oem_name,stat_category,key,'',len(user_set),db_name,current_date)
+            if current_date>date_max:
+                break
             
-            helper_mysql.put_collection(collection=user_set,oem_name=oem_name,category=stat_category, \
-                                    key=key,sub_key='',date=current_date,table_name=db_name)
-        
-        # calculate 
+            # get daily subscriber 
+
+            start_time=current_date+' 00:00:00' # cos Mozat is 0:00:00-23:59:59, so AIS is the same
+            end_time=helper_regex.date_add(current_date,1)+' 00:00:00'
+            new_user_set=gumi_helper_user.get_user_ids_created_by_date(current_date)
+
+            if country == '':
+                daily_active_user_set = helper_mysql.get_raw_collection_from_key(oem_name='Gumi_puzzle', \
+                                    category='user',key='live_log_by_country_daily_uid_unique_collection_id', \
+                                    date=current_date, \
+                                    table_name='raw_data',db_conn=None)
+            else:
+                daily_active_user_set = helper_mysql.get_raw_collection_from_key(oem_name='Gumi_puzzle', \
+                                    category='user',key='live_log_by_country_daily_uid_unique_collection_id',sub_key=country, \
+                                    date=current_date, \
+                                    table_name='raw_data',db_conn=None)
+
+            if not daily_active_user_set:
+                print "NO Data Set for %s"%current_date
+                pass
+            
+            new_active_user_set = new_user_set & daily_active_user_set
+            # calculate
+
+            print 'start calculate'
 
 
-        ranges=[(1,30,7),(1,60,14),(1,8,1)]
+            base_user_sets={
 
-        for r in ranges:
-            start=r[0]
-            end=r[1]
-            step=r[2]
+                'new-subscriber':new_user_set,
+                'new-subscriber_active':new_active_user_set
+                ##############################################
+                #                                            #
+                #   Register new user group definition here  #
+                #                                            #
+                #   key name should contain "ais"            #
+                #                                            #
+                ##############################################
 
-            accumulative_logined_user={
-                'dau':set([]),
             }
+
+            for k,user_set in base_user_sets.iteritems():
                 
-            for i in range(start,end,step):
-                print start
-                print end
-                logined_user={
+                k=k.replace('*','')
+
+                # calculate total
+
+                print 'user base of',k,':',len(user_set)
+
+                key='daily_active_user_initial_%s_total_unique' % (k,)
+                helper_mysql.put_raw_data(oem_name,stat_category,key,country,len(user_set),db_name,current_date)
+                
+                helper_mysql.put_collection(collection=user_set,oem_name=oem_name,category=stat_category, \
+                                        key=key,sub_key=country,date=current_date,table_name=db_name)
+            
+            # calculate 
+
+
+            ranges=[(1,8,1)]
+
+            for r in ranges:
+                start=r[0]
+                end=r[1]
+                step=r[2]
+
+                accumulative_logined_user={
                     'dau':set([]),
                 }
-
-                for day_delta in range(i,i+step):
-                    target_date=helper_regex.date_add(current_date,day_delta)
-
-                    #'dau'
-                    collection = helper_mysql.get_raw_collection_from_key(oem_name='Gumi_puzzle', \
-                            category='user',key='live_log_by_country_daily_uid_unique_collection_id',sub_key=country, \
-                            date=target_date, \
-                            table_name='raw_data',db_conn=None)
-                    #if not collection:
-                    #    raise Exception('ais_daily_active_user_set collection empty! '+target_date)
-
-                    logined_user['dau'] = logined_user['dau'] | collection
-
-
-                for k1,v1 in logined_user.iteritems():
-                    accumulative_logined_user[k1] |= v1
-
-                for k,user_set in base_user_sets.iteritems():
-
-                    k=k.replace('*','')
                     
-                    logined_user_temp=set([])
+                for i in range(start,end,step):
+                    print start
+                    print end
+                    logined_user={
+                        'dau':set([]),
+                    }
 
-                    if k.find('new-subscriber')>-1:
+                    for day_delta in range(i,i+step):
+                        target_date=helper_regex.date_add(current_date,day_delta)
+
+                        #'dau'
+                        if country == '':
+                            print "**************************************************************************"
+                            collection = helper_mysql.get_raw_collection_from_key(oem_name='Gumi_puzzle', \
+                                category='user',key='live_log_by_country_daily_uid_unique_collection_id',\
+                                date=target_date, \
+                                table_name='raw_data',db_conn=None)
+                        else:
+                            collection = helper_mysql.get_raw_collection_from_key(oem_name='Gumi_puzzle', \
+                                category='user',key='live_log_by_country_daily_uid_unique_collection_id',sub_key=country, \
+                                date=target_date, \
+                                table_name='raw_data',db_conn=None)
                         
-                        logined_user_temp=logined_user['dau']
-                        accumulative_logined_user_temp=accumulative_logined_user['dau']
-                                   
+                        #if not collection:
+                        #    raise Exception('ais_daily_active_user_set collection empty! '+target_date)
 
-                    base_user_logined_user= user_set & logined_user_temp
-                    key='daily_active_user_'+str(step)+'_day_logined_%s_total_unique' % (k,)
-                    helper_mysql.put_raw_data(oem_name,stat_category,key,"%d_%s"%(i,country),len(base_user_logined_user),db_name,current_date)
-                    
-                    #helper_mysql.put_collection(collection=base_user_logined_user,oem_name=oem_name,category=stat_category, \
-                    #                    key=key,sub_key=i,date=current_date,table_name=db_name)
-                    base_user_no_logined_user= user_set - accumulative_logined_user_temp 
-                    key='daily_active_user_'+str(step)+'_day_no_login_%s_total_unique' % (k,)
-                    helper_mysql.put_raw_data(oem_name,stat_category,key,"%d_%s"%(i,country),len(base_user_no_logined_user),db_name,current_date)
-                    
-                    #helper_mysql.put_collection(collection=base_user_logined_user,oem_name=oem_name,category=stat_category, \
-                    #                    key=key,sub_key=i,date=current_date,table_name=db_name)
+                        logined_user['dau'] = logined_user['dau'] | collection
+
+
+                    for k1,v1 in logined_user.iteritems():
+                        accumulative_logined_user[k1] |= v1
+
+                    for k,user_set in base_user_sets.iteritems():
+
+                        k=k.replace('*','')
+                        
+                        logined_user_temp=set([])
+
+                        if k.find('new-subscriber')>-1:
+                            
+                            logined_user_temp=logined_user['dau']
+                            accumulative_logined_user_temp=accumulative_logined_user['dau']
+                                       
+
+                        base_user_logined_user= user_set & logined_user_temp
+                        key='daily_active_user_'+str(step)+'_day_logined_%s_total_unique' % (k,)
+                        helper_mysql.put_raw_data(oem_name,stat_category,key,"%d_%s"%(i,country),len(base_user_logined_user),db_name,current_date)
+                        
+                        #helper_mysql.put_collection(collection=base_user_logined_user,oem_name=oem_name,category=stat_category, \
+                        #                    key=key,sub_key=i,date=current_date,table_name=db_name)
+                        base_user_no_logined_user= user_set - accumulative_logined_user_temp 
+                        key='daily_active_user_'+str(step)+'_day_no_logined_%s_total_unique' % (k,)
+                        helper_mysql.put_raw_data(oem_name,stat_category,key,"%d_%s"%(i,country),len(base_user_no_logined_user),db_name,current_date)
+                        
+                        #helper_mysql.put_collection(collection=base_user_logined_user,oem_name=oem_name,category=stat_category, \
+                        #                    key=key,sub_key=i,date=current_date,table_name=db_name)
 
 
 
