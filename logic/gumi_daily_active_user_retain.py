@@ -7,6 +7,7 @@ sys.path.insert(0, os.path.join(ENGINE_ROOT, "."))
 from stat_plan import Stat_plan
 from stat_sql import Stat_sql
 from datetime import datetime
+from celery.task import task
 import time
 import helper_regex
 import helper_mysql
@@ -63,8 +64,8 @@ def generate_html_discription_of_base_user_sets():
         
     return ''.join(ret)
 
+@task
 def stat_login():
-
     global temp_first_access_date,temp_last_access_date,temp_profile_create_date, \
     temp_profile_last_login_date,date_min,date_max,dict_date_to_collection_id,base_user_sets
 
