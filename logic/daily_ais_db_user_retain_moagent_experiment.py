@@ -57,7 +57,6 @@ def generate_html_discription_of_base_user_sets():
         ret.append(r'<li>%s <input type="checkbox" name="key%s" value="1" /></li>' % (key_name,idx,))
         
     return ''.join(ret)
-    
 
 def stat_login():
 

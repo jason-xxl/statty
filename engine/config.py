@@ -55,8 +55,7 @@ else:
 execute_dir=ENGINE_ROOT
 #default_filter_path="/home/mozat/RoutineScripts/user_id_filter/"
 
-
-collection_filename_pattern=r'^(.*?(?:CollectionPool)(.*?)\.zipped)$'
+collection_filename_pattern=r'(\.\.\/engine\/\.\/\.\.\/engine\/\.\.\/data\/collection\\\d+\.zipped)'
 #tmp_download_dir=r'\\192.168.0.158\WebStatShare\StatPortalDownload'
 
 #print execute_dir
@@ -92,6 +91,16 @@ conn_stat_portal = {
     'account':'root',
     'pwd':'gumi.asia123',
     'db':'statty_data',
+    'collection_root_dir':os.path.join(ENGINE_ROOT, "../data/collection"),
+    'named_collection_root_dir':os.path.join(ENGINE_ROOT, "../data/named_collection"),
+    'db_type':'mysql',
+}
+
+conn_stat_gumi_live = {
+    'host':'localhost',
+    'account':'root',
+    'pwd':'gumi.asia123',
+    'db':'gumi_live',
     'collection_root_dir':os.path.join(ENGINE_ROOT, "../data/collection"),
     'named_collection_root_dir':os.path.join(ENGINE_ROOT, "../data/named_collection"),
     'db_type':'mysql',

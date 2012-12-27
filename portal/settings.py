@@ -141,23 +141,13 @@ BROKER_PORT = 5672
 BROKER_USER = "root"
 BROKER_PASSWORD = "gumi.asia123"
 BROKER_VHOST = "8001"
-
-CELERY_IMPORTS = ("logic.test_daily_active_user")
+BROKER_RESULT_BACKEND = "amqp"
+CELERY_IMPORTS = ("logic.gumi_daily_active_user")
 CELERYBEAT_SCHEDULE = {
 "test_dau": {
-"task": "logic.test_daily_active_user.stat_im",
-"schedule": crontab(minute=1, hour=11),
-"args": (),
-},
-"test_dau1": {
-"task": "logic.test_daily_active_user.stat_im",
-"schedule": crontab(minute=2, hour=12),
-"args": (),
-},
-"test_dau2": {
-"task": "logic.test_daily_active_user.stat_im",
-"schedule": crontab(minute=3, hour=13),
-"args": (),
+"task": "logic.gumi_daily_active_user.stat_im",
+"schedule": crontab(minute=0, hour=13),
+"args": (PARAM, False),
 },
 }
 

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*- 
-import _mssql
+#import _mssql
 import config
 import helper_mysql
 import helper_regex
@@ -7,23 +7,23 @@ import sys
 import functools
 
 
-conn_stc=config.conn_stc
-conn_stc_mt=config.conn_stc_mt
-conn_umniah=config.conn_umniah
-conn_viva_bh=config.conn_viva_bh
-conn_viva_bh_mt=config.conn_viva_bh_mt
-conn_viva=config.conn_viva
-conn_viva_mt=config.conn_viva_mt
-conn_viva_invitation=config.conn_viva_invitation
-conn_telk_armor=config.conn_telk_armor
-conn_mozat=config.conn_mozat
-conn_viva_billing=config.conn_viva_billing
-conn_stc_billing=config.conn_viva_billing
-conn_vodafone=config.conn_vodafone
-conn_vodafone_mt=config.conn_vodafone_mt
-conn_mt=config.conn_mt
+#conn_stc=config.conn_stc
+#conn_stc_mt=config.conn_stc_mt
+#conn_umniah=config.conn_umniah
+#conn_viva_bh=config.conn_viva_bh
+#conn_viva_bh_mt=config.conn_viva_bh_mt
+#conn_viva=config.conn_viva
+#conn_viva_mt=config.conn_viva_mt
+#conn_viva_invitation=config.conn_viva_invitation
+#conn_telk_armor=config.conn_telk_armor
+#conn_mozat=config.conn_mozat
+#conn_viva_billing=config.conn_viva_billing
+#conn_stc_billing=config.conn_viva_billing
+#conn_vodafone=config.conn_vodafone
+#conn_vodafone_mt=config.conn_vodafone_mt
+#conn_mt=config.conn_mt
 
-conn_helper_db=config.conn_helper_db
+#conn_helper_db=config.conn_helper_db
 
 db_pool={}
 

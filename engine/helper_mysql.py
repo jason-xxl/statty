@@ -624,6 +624,7 @@ def get_raw_collection_by_id(collection_id):
         elements_string=(str(i['element_string'])).strip()
         #print '1'+elements_string
         if helper_regex.extract(elements_string,config.collection_filename_pattern):
+
             elements_string=helper_file.get_zipped_collection(collection_id=collection_id)
             #print '2'+elements_string
             if not elements_string:
@@ -830,6 +831,8 @@ def get_dict_of_raw_collection_from_key(oem_name='',category='',key='',sub_key='
 
 def get_raw_collection_from_key(oem_name='',category='',key='',sub_key='',date='',table_name='raw_data',db_conn=None):
 
+    print "DATEDATEDATE \n"
+    print date
     print 'get_raw_collection_from_key:',oem_name,category,key,sub_key,date,table_name,db_conn
     key=key.replace('_collection_id','')+'_collection_id'
 
@@ -1007,7 +1010,7 @@ def log_execution_info(script_file_name,sql,start_time,error_msg='',start_time_s
 
     sql=r"""
     
-    INSERT INTO `mozat_stat`.`log_sql_execution_time` (
+    INSERT INTO `statty_data`.`log_sql_execution_time` (
         `script_file_name`,
         `sql`,
         `started_on`,
