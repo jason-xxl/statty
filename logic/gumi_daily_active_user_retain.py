@@ -99,7 +99,8 @@ def stat_login():
                             table_name='raw_data',db_conn=None)
 
         if not daily_active_user_set:
-            raise Exception('daily_active_user_set empty!')
+            print "NO Data Set for %s"%current_date
+            pass
         
         new_active_user_set = new_user_set & daily_active_user_set
         # calculate
