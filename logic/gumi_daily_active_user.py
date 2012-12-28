@@ -56,6 +56,7 @@ def stat_im(my_date, flat):
 	directory = '/mnt/%s/access.log-%s'%(server_ip,datetime.fromtimestamp(my_date).strftime('%Y%m%d'))
 	print directory
         stat_plan.add_log_source(directory)
+        #stat_plan.add_log_source(r'/var/log/secure.log')
         stat_plan.run()
         
     else:
@@ -65,7 +66,9 @@ if __name__=='__main__':
     for i in range(30,0,-1):
         my_date=time.time()-3600*24*i
         stat_im(my_date, False)
-
+    #for i in range(1,0,-1):
+    #    my_date=time.time()-3600*24*i
+    #    stat_im(my_date, False)
 
 
 
