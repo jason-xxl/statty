@@ -10,10 +10,12 @@ def get_user_ids_created_by_date(target_date):
     end_time=helper_regex.date_add(target_date,1)+' 00:00:00'
     fault_id = randint(1,100)
     sql=r'''
+    SELECT id FROM gumi_live.auth_user WHERE date_joined>='%s' and date_joined<'%s';
+    ''' % (start_time,end_time)
 
-    SELECT id FROM gumi_live.auth_user WHERE date_joined>='%s' and date_joined<'%s' UNION SELECT '%d' FROM gumi_live.auth_user;
-
-    ''' % (start_time,end_time, 1)
+    #sql=r'''
+    #SELECT id FROM gumi_live.auth_user WHERE date_joined>='%s' and date_joined<'%s' UNION SELECT '%d' FROM gumi_live.auth_user;
+    #''' % (start_time,end_time,1)
 
     result_set=helper_mysql.fetch_set(sql,config.conn_stat_gumi_live)
     result_set=set([str(i) for i in result_set])

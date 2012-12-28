@@ -148,12 +148,12 @@ CELERY_IMPORTS = ("logic.gumi_daily_active_user", "logic.gumi_daily_active_user_
 CELERYBEAT_SCHEDULE = {
 "daily_active_user": {
 "task": "logic.gumi_daily_active_user.stat_im",
-"schedule": crontab(minute=11, hour=14),
+"schedule": crontab(minute=15, hour=0),
 "args": (PARAM, False),
 },
 "dau_retain": {
 "task": "logic.gumi_daily_active_user_retain.stat_login",
-"schedule": crontab(minute=12, hour=14),
+"schedule": crontab(minute=20, hour=0),
 "args": (),
 },
 }

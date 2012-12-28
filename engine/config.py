@@ -55,9 +55,9 @@ else:
 execute_dir=ENGINE_ROOT
 #default_filter_path="/home/mozat/RoutineScripts/user_id_filter/"
 
-collection_filename_pattern=r'(\.\.\/engine\/\.\/\.\.\/engine\/\.\.\/data\/collection\\\d+\.zipped)'
+#collection_filename_pattern=r'(\.\.\/engine\/\.\/\.\.\/engine\/\.\.\/data\/collection\\\d+\.zipped)'
 #../engine/./../engine/../data/collection\\733\\741\\7337416.zipped
-#collection_filename_pattern=r'(\.\.\/engine\/\.\/\.\.\/engine\/\.\.\/data\/collection\\\d+\\\d+\\\d+\.zipped)'
+collection_filename_pattern=r'(\.\.\/engine\/\.\/\.\.\/engine\/\.\.\/data\/collection\\\d+\\\d+\\\d+\.zipped)'
 #tmp_download_dir=r'\\192.168.0.158\WebStatShare\StatPortalDownload'
 
 #print execute_dir

@@ -25,9 +25,9 @@ def stat_im(my_date, flat):
     oem_name='Gumi_puzzle'
     stat_category='user'
 
-    #if helper_check_mount.check_mount():
-    test = True
-    if test:
+    if helper_check_mount.check_mount():
+    #test = True
+    #if test:
         stat_plan = Stat_plan()
 
         # Log Sample
@@ -52,18 +52,24 @@ def stat_im(my_date, flat):
 
         stat_plan.add_stat_sql(daily_active_user)
         stat_plan.add_stat_sql(daily_active_user_by_country)
+
         server_ip = helper_ip.get_current_server_ip()
-        directory = '/mnt/%s/access.log.%s'%(server_ip,datetime.fromtimestamp(my_date).strftime('%Y-%m-%d'))
-        stat_plan.add_log_source(r'/var/log/secure.log')
+        directory = '/mnt/%s/access.log-%s'%(server_ip,datetime.fromtimestamp(my_date).strftime('%Y%m%d'))
+        stat_plan.add_log_source(directory)
+
+        #stat_plan.add_log_source(r'/var/log/secure.log')
         stat_plan.run()
         
     else:
         'MOUNT ERROR'
 
 if __name__=='__main__':
-    for i in range(1,0,-1):
+    for i in range(30,0,-1):
         my_date=time.time()-3600*24*i
         stat_im(my_date, False)
+    #for i in range(1,0,-1):
+    #    my_date=time.time()-3600*24*i
+    #    stat_im(my_date, False)
 
 
 
