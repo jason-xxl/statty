@@ -39,18 +39,17 @@ def get_country_code_from_host_name(host_name):
     return country
 
 def get_current_server_ip():
-    ip_win=socket.gethostbyname(socket.gethostname())
-    if ip_win:
-       return ip_win
-
-    ip_linux=''
-    tmp_socket= socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    tmp_socket.connect(("google.com",80))
-    ip_linux=tmp_socket.getsockname()[0]
-    tmp_socket.close()
-
-    return ip_linux
-    
+    try:
+        ip_win=socket.gethostbyname(socket.gethostname())
+        if ip_win:
+           return ip_win
+    except:
+        ip_linux=''
+        tmp_socket= socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        tmp_socket.connect(("google.com",80))
+        ip_linux=tmp_socket.getsockname()[0]
+        tmp_socket.close()
+        return ip_linux
 
 if __name__=='__main__':
     ip='188.229.221.223'
