@@ -4,4 +4,4 @@
 local_settings.py
 *.DS_Store
 .zipped
-.db
+celerybeat-schedule.db
