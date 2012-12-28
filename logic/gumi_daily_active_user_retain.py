@@ -102,10 +102,10 @@ def stat_login():
                         table_name='raw_data',db_conn=None)
 
         base_user_sets={
-            'pt-new-subscriber-':new_user_set,
-            'pt-new-subscriber-SG':new_user_set & active_user_sg,
-            'pt-new-subscriber-US':new_user_set & active_user_us,
-            'pt-new-subscriber-PL':new_user_set & active_user_pl
+            'pt-new-user-':new_user_set,
+            'pt-new-user-SG':new_user_set & active_user_sg,
+            'pt-new-user-US':new_user_set & active_user_us,
+            'pt-new-user-PL':new_user_set & active_user_pl
         }
 
         for k,user_set in base_user_sets.iteritems():
@@ -113,12 +113,12 @@ def stat_login():
             # calculate total
             print 'user base of',k,':',len(user_set)
             key='active_user_initial_%s_total_unique' % (k,)
-            sub_key = k[-2:]
-            if sub_key.find('-')>-1:
-                sub_key=''
-            helper_mysql.put_raw_data(oem_name,stat_category,key,sub_key,len(user_set),db_name,current_date)
+            #sub_key = k[-2:]
+            #if sub_key.find('-')>-1:
+            #    sub_key=''
+            helper_mysql.put_raw_data(oem_name,stat_category,key,'',len(user_set),db_name,current_date)
             helper_mysql.put_collection(collection=user_set,oem_name=oem_name,category=stat_category, \
-                                    key=key,sub_key=sub_key,date=current_date,table_name=db_name)
+                                    key=key,sub_key='',date=current_date,table_name=db_name)
 
         # calculate 
         ranges=[(1,8,1),(1,30,7),(1,60,14)]
@@ -159,16 +159,13 @@ def stat_login():
                         logined_user_temp=logined_user['pt']
                         accumulative_logined_user_temp=accumulative_logined_user['pt']
 
-                    country = k[-2:]
-                    if country.find('-')>-1:
-                        country=''
                     base_user_logined_user= user_set & logined_user_temp
                     key='daily_active_user_'+str(step)+'_day_logined_%s_total_unique' % (k,)
-                    helper_mysql.put_raw_data(oem_name,stat_category,key,"%d_%s"%(i,country),len(base_user_logined_user),db_name,current_date)
+                    helper_mysql.put_raw_data(oem_name,stat_category,key,i,len(base_user_logined_user),db_name,current_date)
                     
                     base_user_no_logined_user= user_set - accumulative_logined_user_temp 
                     key='daily_active_user_'+str(step)+'_day_no_logined_%s_total_unique' % (k,)
-                    helper_mysql.put_raw_data(oem_name,stat_category,key,"%d_%s"%(i,country),len(base_user_no_logined_user),db_name,current_date)
+                    helper_mysql.put_raw_data(oem_name,stat_category,key,i,len(base_user_no_logined_user),db_name,current_date)
 
     return
 

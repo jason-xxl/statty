@@ -52,6 +52,8 @@ def stat_im(my_date, flat):
 
         stat_plan.add_stat_sql(daily_active_user)
         stat_plan.add_stat_sql(daily_active_user_by_country)
+        server_ip = helper_ip.get_current_server_ip()
+        directory = '/mnt/%s/access.log.%s'%(server_ip,datetime.fromtimestamp(my_date).strftime('%Y-%m-%d'))
         stat_plan.add_log_source(r'/var/log/secure.log')
         stat_plan.run()
         

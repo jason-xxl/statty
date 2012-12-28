@@ -15,6 +15,8 @@ def get_country_name_from_ip(ip_str):
 def get_country_code_from_ip(ip_str):
     try:
         country=gi.country_code_by_addr(ip_str)
+        if not country:
+            country = 'ZZ'
     except:
         print 'Wrong IP: ',ip_str
         return 'Wrong IP'
@@ -37,9 +39,9 @@ def get_country_code_from_host_name(host_name):
     return country
 
 def get_current_server_ip():
-    #ip_win=socket.gethostbyname(socket.gethostname())
-    #if ip_win:
-     #   return ip_win
+    ip_win=socket.gethostbyname(socket.gethostname())
+    if ip_win:
+       return ip_win
 
     ip_linux=''
     tmp_socket= socket.socket(socket.AF_INET, socket.SOCK_STREAM)

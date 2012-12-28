@@ -13,6 +13,8 @@ PROJECT_ROOT = os.path.join(os.path.dirname(__file__),'.')
 sys.path.insert(0, os.path.join(PROJECT_ROOT, "modules"))
 
 DEBUG = True
+if "celeryd" in sys.argv:
+    DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -146,12 +148,12 @@ CELERY_IMPORTS = ("logic.gumi_daily_active_user", "logic.gumi_daily_active_user_
 CELERYBEAT_SCHEDULE = {
 "daily_active_user": {
 "task": "logic.gumi_daily_active_user.stat_im",
-"schedule": crontab(minute=20, hour=12),
+"schedule": crontab(minute=11, hour=14),
 "args": (PARAM, False),
 },
 "dau_retain": {
 "task": "logic.gumi_daily_active_user_retain.stat_login",
-"schedule": crontab(minute=21, hour=12),
+"schedule": crontab(minute=12, hour=14),
 "args": (),
 },
 }
