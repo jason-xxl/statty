@@ -11,9 +11,9 @@ def get_user_ids_created_by_date(target_date):
     fault_id = randint(1,100)
     sql=r'''
 
-    SELECT id FROM gumi_live.auth_user WHERE date_joined>='%s' and date_joined<'%s' UNION SELECT '%d' FROM gumi_live.auth_user;
+    SELECT id FROM gumi_live.auth_user WHERE date_joined>='%s' and date_joined<'%s';
 
-    ''' % (start_time,end_time, 1)
+    ''' % (start_time,end_time)
 
     result_set=helper_mysql.fetch_set(sql,config.conn_stat_gumi_live)
     result_set=set([str(i) for i in result_set])
