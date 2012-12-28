@@ -12,6 +12,7 @@ import time
 import helper_regex
 import helper_ip
 import gumi_helper_user
+import helper_check_mount
 import config
 
 def get_country_name(line):
