@@ -100,14 +100,19 @@ def stat_login():
                         category='user',key='live_log_by_country_daily_uid_unique_collection_id',sub_key='PL', \
                         date=current_date, \
                         table_name='raw_data',db_conn=None)
+        # daily active user Unknow IP
+        active_user_zz = helper_mysql.get_raw_collection_from_key(oem_name='Gumi_puzzle', \
+                        category='user',key='live_log_by_country_daily_uid_unique_collection_id',sub_key='ZZ', \
+                        date=current_date, \
+                        table_name='raw_data',db_conn=None)
 
         base_user_sets={
             'pt-new-user-':new_user_set,
             'pt-new-user-SG':new_user_set & active_user_sg,
             'pt-new-user-US':new_user_set & active_user_us,
-            'pt-new-user-PL':new_user_set & active_user_pl
+            'pt-new-user-PL':new_user_set & active_user_pl,
+            'pt-new-user-ZZ':new_user_set & active_user_zz
         }
-
         for k,user_set in base_user_sets.iteritems():
             k=k.replace('*','')
             # calculate total
