@@ -143,6 +143,7 @@ BROKER_PORT = 5672
 BROKER_USER = "root"
 BROKER_PASSWORD = "gumi.asia123"
 BROKER_VHOST = "8001"
+BROKER_HEARTBEAT=30
 CELERY_RESULT_BACKEND = "database"
 CELERY_RESULT_DBURI = "mysql://webapp:gumi.asia123@pt-staging.dev.gumi.sg/statty_data"
 CELERY_TASK_RESULT_EXPIRES = None
